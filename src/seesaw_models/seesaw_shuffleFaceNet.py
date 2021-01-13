@@ -409,10 +409,7 @@ class Arcface(Module):
         cond_v = cos_theta - self.threshold
         cond_mask = cond_v <= 0
         keep_val = (cos_theta - self.mm) # when theta not in [0,pi], use cosface instead
-        print(cond_mask)
-        print(cos_theta_m[cond_mask])
-        print(keep_val[cond_mask])
-        cos_theta_m[cond_mask] = keep_val[cond_mask]        
+        # cos_theta_m[cond_mask] = keep_val[cond_mask]        
         label = label.view(-1,1) #size=(B,1) 
         output = cos_theta * 1.0 # a little bit hacky way to prevent in_place operation on cos_theta
         idx_ = torch.arange(0, nB, dtype=torch.long)
