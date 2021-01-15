@@ -23,7 +23,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
 class face_learner(object):
     def __init__(self, conf, inference=False):
         print(conf)
-        if conf.seesawFaceNet:
+        if conf.use_seesawFaceNet:
             self.model = seesaw_shuffleFaceNet(conf.embedding_size)#.to(conf.device)
             print('seesawFaceNet model generated')
         else:
@@ -206,6 +206,7 @@ class face_learner(object):
                 self.optimizer.zero_grad()
                 embeddings = self.model(imgs)
                 thetas = self.head(embeddings, labels)
+                #ce_loss is cross entropy loss
                 loss = conf.ce_loss(thetas, labels)
                 loss.backward()
                 running_loss += loss.item()/conf.batch_size
