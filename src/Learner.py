@@ -24,7 +24,7 @@ class face_learner(object):
     def __init__(self, conf, inference=False):
         print(conf)
         if conf.use_seesawFaceNet:
-            self.model = seesaw_shuffleFaceNet(conf.embedding_size)#.to(conf.device)
+            self.model = seesaw_shuffleFaceNet(conf.embedding_size).to(conf.device)
             print('seesawFaceNet model generated')
         else:
             self.model = Backbone(conf.net_depth, conf.drop_ratio, conf.net_mode)#.to(conf.device)
