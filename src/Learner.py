@@ -74,6 +74,7 @@ class face_learner(object):
         torch.save(
             self.model.state_dict(), save_path /
             ('model_{}_accuracy:{}_step:{}_{}.pth'.format(get_time(), accuracy, self.step, extra)))
+            
         if not model_only:
             torch.save(
                 self.head.state_dict(), save_path /
@@ -86,7 +87,15 @@ class face_learner(object):
         if from_save_folder:
             save_path = conf.save_path
         else:
-            save_path = conf.model_path            
+            save_path = conf.model_path
+        #new
+        state_dict = torch.load(save_path/'model_{}'.format(fixed_str))
+        from collections import OrderedDict
+        new_state_dict = OrderedDict()
+        for k, v in state_dict.items():
+            name = k[7:] # remove `module.`
+            new_state_dict[name] = v
+        #end   
         self.model.load_state_dict(torch.load(save_path/'model_{}'.format(fixed_str)))
         if not model_only:
             self.head.load_state_dict(torch.load(save_path/'head_{}'.format(fixed_str)))
