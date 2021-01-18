@@ -95,8 +95,9 @@ class face_learner(object):
         for k, v in state_dict.items():
             name = k[7:] # remove `module.`
             new_state_dict[name] = v
+        self.model.load_state_dict(new_state_dict)
         #end   
-        self.model.load_state_dict(torch.load(save_path/'model_{}'.format(fixed_str)))
+        #self.model.load_state_dict(torch.load(save_path/'model_{}'.format(fixed_str)))
         if not model_only:
             self.head.load_state_dict(torch.load(save_path/'head_{}'.format(fixed_str)))
             self.optimizer.load_state_dict(torch.load(save_path/'optimizer_{}'.format(fixed_str)))
