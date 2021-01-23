@@ -4,9 +4,9 @@ import torch.nn.functional as F
 from math import pi
 
 class LiArcFace(nn.Module):
-    def __init__(self, emb_size=512, num_classes=51332, s=64.0,  m=0.45):
+    def __init__(self, embedding_size=512, classnum=51332, s=64.0,  m=0.45):
         super().__init__()
-        self.weight = nn.Parameter(torch.empty(num_classes, emb_size))
+        self.weight = nn.Parameter(torch.empty(classnum, embedding_size))
         nn.init.xavier_normal_(self.weight)
         self.m = m
         self.s = s
