@@ -5,7 +5,7 @@ from math import pi
 from torch.nn import Parameter
 
 class LiArcFace(nn.Module):
-    def __init__(self, embedding_size=512, classnum=51332, s=64.0,  m=0.42):
+    def __init__(self, embedding_size=512, classnum=51332, s=64.0,  m=0.45):
         super().__init__()
         self.classnum = classnum        
         self.weight = nn.Parameter(torch.empty(classnum, embedding_size))
