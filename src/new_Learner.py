@@ -49,15 +49,15 @@ class face_learner(object):
             cudnn.enabled = True
             cudnn.benchmark = True		
             if conf.use_seesawFaceNet:
+                print('setting optimizer for seesawFacenet')
                 self.optimizer = optim.SGD([
                                     {'params': paras_wo_bn[:-1], 'weight_decay': 4e-5},
-                                    # {'params': [paras_wo_bn[-1]] + [self.head.kernel], 'weight_decay': 4e-4},
-                                    {'params': paras_wo_bn[-1], 'weight_decay': 4e-4},
+                                    {'params': [paras_wo_bn[-1]] + [self.head.weight], 'weight_decay': 4e-4},
                                     {'params': paras_only_bn}
                                 ], lr = conf.lr, momentum = conf.momentum)
             else:
                 self.optimizer = optim.SGD([
-                                    {'params': paras_wo_bn + [self.head.kernel], 'weight_decay': 5e-4},
+                                    {'params': paras_wo_bn + [self.head.weight], 'weight_decay': 5e-4},
                                     {'params': paras_only_bn}
                                 ], lr = conf.lr, momentum = conf.momentum)
             print(self.optimizer)
