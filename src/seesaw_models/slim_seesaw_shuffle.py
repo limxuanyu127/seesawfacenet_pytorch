@@ -339,8 +339,8 @@ class seesaw_shuffleFaceNetv3(Module):
         self.conv1 = Conv_block(3, 64, kernel=(3, 3), stride=(2, 2), padding=(1, 1))
 
         #Slim
-        self.slim1 = Slim(64, 22) #I need to achieve 66 after this, so 66/3 = 22
-        self.max_pool1 = nn.MaxPool2d(2,2)
+        self.slim1 = Slim(64, 32) #I need to achieve 66 after this, so 66/3 = 22
+        self.max_pool1 = nn.MaxPool2d(3,2)
         #end
 
         self.conv2_dw = Conv_block(64, 64, kernel=(3, 3), stride=(1, 1), padding=(1, 1), groups=64)
@@ -508,7 +508,7 @@ class Slim(nn.Module):
     super().__init__()
     
     expand_filters = 4 * filter_count
-    dw_conv_filters = 3 * filter_count
+    dw_conv_filters = 2 * filter_count
     
     # 1x1 convolution to restructure the skip connection
     self.skip_projection = nn.Sequential(
