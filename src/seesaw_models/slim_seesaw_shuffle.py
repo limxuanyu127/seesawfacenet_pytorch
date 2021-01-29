@@ -343,7 +343,7 @@ class seesaw_shuffleFaceNetv3(Module):
         self.max_pool1 = nn.MaxPool2d(3,2)
         #end
 
-        self.conv2_dw = Conv_block(66, 64, kernel=(3, 3), stride=(1, 1), padding=(1, 1), groups=64)
+        self.conv2_dw = Conv_block(66, 64, kernel=(3, 3), stride=(1, 1), padding=(1, 1), groups=66)
         self.conv_23 = seesaw_Depth_Wise(64, 64, kernel=(3, 3), stride=(2, 2), padding=(1, 1), groups=128, use_se = 1, use_hs = 1)
         self.conv_3 = seesaw_Residual(64, num_block=4, groups=128, kernel=(3, 3), stride=(1, 1), padding=(1, 1), use_se = 1, use_hs = 1)
         self.conv_34 = seesaw_Depth_Wise(64, 128, kernel=(3, 3), stride=(2, 2), padding=(1, 1), groups=256, use_se = 1, use_hs = 1)
