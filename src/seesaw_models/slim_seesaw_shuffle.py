@@ -340,7 +340,7 @@ class seesaw_shuffleFaceNetv3(Module):
 
         #Slim
         self.slim1 = Slim(64, 32) #I need to achieve 66 after this, so 66/3 = 22
-        self.max_pool1 = nn.MaxPool2d(3,2)
+        self.max_pool1 = nn.MaxPool2d(2,2)
         #end
 
         self.conv2_dw = Conv_block(64, 64, kernel=(3, 3), stride=(1, 1), padding=(1, 1), groups=64)
