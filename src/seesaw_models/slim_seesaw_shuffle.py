@@ -358,10 +358,12 @@ class seesaw_shuffleFaceNetv3(Module):
     
     def forward(self, x):
         out = self.conv1(x)
+        print('ckpt1', out.shape)
 
         #Slim
         out = self.slim1(out)
         out = self.max_pool1(out)
+        print('ckpt2', out.shape)
 
         #end
 
