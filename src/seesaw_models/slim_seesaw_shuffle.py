@@ -339,11 +339,11 @@ class seesaw_shuffleFaceNetv3(Module):
         self.conv1 = Conv_block(3, 64, kernel=(3, 3), stride=(2, 2), padding=(1, 1))
 
         #Slim
-        self.slim1 = Slim(64, 28) #I need to achieve 64 after this, so 64/3 = 28
+        self.slim1 = Slim(64, 22) #I need to achieve 66 after this, so 66/3 = 22
         self.max_pool1 = nn.MaxPool2d(3,2)
         #end
 
-        self.conv2_dw = Conv_block(64, 64, kernel=(3, 3), stride=(1, 1), padding=(1, 1), groups=64)
+        self.conv2_dw = Conv_block(66, 64, kernel=(3, 3), stride=(1, 1), padding=(1, 1), groups=64)
         self.conv_23 = seesaw_Depth_Wise(64, 64, kernel=(3, 3), stride=(2, 2), padding=(1, 1), groups=128, use_se = 1, use_hs = 1)
         self.conv_3 = seesaw_Residual(64, num_block=4, groups=128, kernel=(3, 3), stride=(1, 1), padding=(1, 1), use_se = 1, use_hs = 1)
         self.conv_34 = seesaw_Depth_Wise(64, 128, kernel=(3, 3), stride=(2, 2), padding=(1, 1), groups=256, use_se = 1, use_hs = 1)
