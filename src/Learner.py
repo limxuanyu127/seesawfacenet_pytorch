@@ -90,7 +90,7 @@ class face_learner(object):
         else:
             save_path = conf.model_path
         #new
-        state_dict = torch.load(save_path/'model_{}'.format(fixed_str))
+        state_dict = torch.load(save_path/'{}'.format(fixed_str))
         from collections import OrderedDict
         new_state_dict = OrderedDict()
         for k, v in state_dict.items():
