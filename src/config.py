@@ -8,6 +8,7 @@ def get_config(training = True):
     conf = edict()
     conf.data_path = Path('data')
     conf.work_path = Path('work_space/')
+    conf.old_results = Path('old_results/') #newly added
     conf.model_path = conf.work_path/'models'
     conf.log_path = conf.work_path/'log'
     conf.save_path = conf.work_path/'save'
