@@ -337,14 +337,15 @@ class seesaw_shuffleFaceNetv3(Module):
     def __init__(self, embedding_size=512):
         super(seesaw_shuffleFaceNetv3, self).__init__()
         self.conv1 = Conv_block(3, 64, kernel=(3, 3), stride=(2, 2), padding=(1, 1))
+        self.conv2_dw = Conv_block(64, 64, kernel=(3, 3), stride=(1, 1), padding=(1, 1), groups=64)
 
         #Slim
         self.slim1 = Slim(64, 32) #I need to achieve 66 after this, so 66/3 = 22
         # self.max_pool1 = nn.MaxPool2d(2,1)
         #end
+        
+        # self.conv_23 = seesaw_Depth_Wise(64, 64, kernel=(3, 3), stride=(2, 2), padding=(1, 1), groups=128, use_se = 1, use_hs = 1)
 
-        self.conv2_dw = Conv_block(64, 64, kernel=(3, 3), stride=(1, 1), padding=(1, 1), groups=64)
-        self.conv_23 = seesaw_Depth_Wise(64, 64, kernel=(3, 3), stride=(2, 2), padding=(1, 1), groups=128, use_se = 1, use_hs = 1)
         self.conv_3 = seesaw_Residual(64, num_block=4, groups=128, kernel=(3, 3), stride=(1, 1), padding=(1, 1), use_se = 1, use_hs = 1)
         self.conv_34 = seesaw_Depth_Wise(64, 128, kernel=(3, 3), stride=(2, 2), padding=(1, 1), groups=256, use_se = 1, use_hs = 1)
         self.conv_4 = seesaw_Residual(128, num_block=6, groups=256, kernel=(3, 3), stride=(1, 1), padding=(1, 1), use_se = 1, use_hs = 1)
@@ -358,18 +359,18 @@ class seesaw_shuffleFaceNetv3(Module):
     
     def forward(self, x):
         out = self.conv1(x)
-        print('ckpt1', out.shape)
+
+        out = self.conv2_dw(out)
+        print('conv2_dw', out.shape)
 
         #Slim
         out = self.slim1(out)
         # out = self.max_pool1(out)
-        print('ckpt2', out.shape)
-
+        print('slim1', out.shape)
         #end
 
-        out = self.conv2_dw(out)
-
         out = self.conv_23(out)
+        print('conv_23', out.shape)
 
         out = self.conv_3(out)
         

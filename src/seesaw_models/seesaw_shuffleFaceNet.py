@@ -352,8 +352,10 @@ class seesaw_shuffleFaceNet(Module):
         out = self.conv1(x)
 
         out = self.conv2_dw(out)
+        print('conv2_dw', out.shape)
 
         out = self.conv_23(out)
+        print('conv_23', out.shape)
 
         out = self.conv_3(out)
         
