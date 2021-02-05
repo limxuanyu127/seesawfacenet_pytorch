@@ -368,7 +368,7 @@ class seesaw_shuffleFaceNetv3(Module):
         # out = self.max_pool1(out)
         print('slim1', out.shape)
 
-        out = self.conv_pure
+        out = self.conv_pure(out)
         print('conv_pure', out.shape)
 
         # out = self.conv_23(out)
