@@ -93,8 +93,8 @@ class face_learner(object):
         if from_save_folder:
             save_path = conf.save_path
         else:
-            # save_path = conf.model_path
-            save_path = conf.old_results
+            save_path = conf.model_path
+            # save_path = conf.old_results
         #new
         state_dict = torch.load(save_path/'{}'.format(fixed_str))
         from collections import OrderedDict

@@ -70,8 +70,8 @@ class face_learner(object):
         if to_save_folder:
             save_path = conf.save_path
         else:
-            # save_path = conf.model_path
-            save_path = conf.old_results
+            save_path = conf.model_path
+            # save_path = conf.old_results
         torch.save(
             self.model.state_dict(), save_path /
             ('model_{}_accuracy:{}_step:{}_{}.pth'.format(get_time(), accuracy, self.step, extra)))
