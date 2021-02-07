@@ -61,7 +61,7 @@ class face_learner(object):
             print('optimizers generated')    
             self.board_loss_every = len(self.loader)//100
             self.evaluate_every = len(self.loader)//10
-            self.save_every = len(self.loader)//5
+            self.save_every = len(self.loader)//2
             self.agedb_30, self.cfp_fp, self.lfw, self.agedb_30_issame, self.cfp_fp_issame, self.lfw_issame = get_val_data(self.loader.dataset.root.parent)
         else:
             self.threshold = conf.threshold
