@@ -365,10 +365,10 @@ class seesaw_shuffleFaceNetv3(Module):
         # print('conv2_dw', out.shape)
 
         out = self.slim1(out)
-        print('slim1', out.shape)
+        # print('slim1', out.shape)
 
         out = self.max_pool1(out)
-        print('max_pool1', out.shape)
+        # print('max_pool1', out.shape)
 
         # out = self.conv_pure(out)
         # print('conv_pure', out.shape)
