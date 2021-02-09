@@ -341,8 +341,8 @@ class seesaw_shuffleFaceNetv3(Module):
 
         #Slim
         self.slim1 = Slim(64, 32) #I need to achieve 66 after this, so 66/3 = 22; without maxpooling, output channel is 64, dim is unchanged
-        self.conv_pure = nn.Conv2d(64, 64, kernel_size=2, stride=2)
-        # self.max_pool1 = nn.MaxPool2d(2,1)
+        # self.conv_pure = nn.Conv2d(64, 64, kernel_size=2, stride=2)
+        self.max_pool1 = nn.MaxPool2d(2,2)
         #end
 
         # self.conv_23 = seesaw_Depth_Wise(64, 64, kernel=(3, 3), stride=(2, 2), padding=(1, 1), groups=128, use_se = 1, use_hs = 1)
@@ -365,10 +365,12 @@ class seesaw_shuffleFaceNetv3(Module):
         # print('conv2_dw', out.shape)
 
         out = self.slim1(out)
-        # out = self.max_pool1(out)
-        # print('slim1', out.shape)
+        print('slim1', out.shape)
 
-        out = self.conv_pure(out)
+        out = self.max_pool1(out)
+        print('max_pool1', out.shape)
+
+        # out = self.conv_pure(out)
         # print('conv_pure', out.shape)
 
         # out = self.conv_23(out)
