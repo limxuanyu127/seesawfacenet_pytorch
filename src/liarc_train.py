@@ -1,5 +1,5 @@
 from config import get_config
-from new_Learner import face_learner
+from liarc_Learner import face_learner
 import argparse
 
 if __name__ == '__main__':
