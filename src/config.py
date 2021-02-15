@@ -6,8 +6,8 @@ from torchvision import transforms as trans
 
 def get_config(training = True):
     conf = edict()
-    conf.data_path = Path('data')
-    # conf.data_path = Path('/mnt/vol_b/data')
+    # conf.data_path = Path('data')
+    conf.data_path = Path('/mnt/vol_b/data')
     conf.work_path = Path('work_space/')
     conf.old_results = Path('old_results/') #newly added
     conf.model_path = conf.work_path/'models'

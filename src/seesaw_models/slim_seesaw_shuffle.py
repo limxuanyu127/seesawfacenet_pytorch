@@ -346,7 +346,7 @@ class seesaw_shuffleFaceNetv3(Module):
         #end
 
         # self.conv_23 = seesaw_Depth_Wise(64, 64, kernel=(3, 3), stride=(2, 2), padding=(1, 1), groups=128, use_se = 1, use_hs = 1)
-        # self.conv_3 = seesaw_Residual(64, num_block=4, groups=128, kernel=(3, 3), stride=(1, 1), padding=(1, 1), use_se = 1, use_hs = 1)
+        self.conv_3 = seesaw_Residual(64, num_block=4, groups=128, kernel=(3, 3), stride=(1, 1), padding=(1, 1), use_se = 1, use_hs = 1)
 
         self.conv_34 = seesaw_Depth_Wise(64, 128, kernel=(3, 3), stride=(2, 2), padding=(1, 1), groups=256, use_se = 1, use_hs = 1)
         self.conv_4 = seesaw_Residual(128, num_block=6, groups=256, kernel=(3, 3), stride=(1, 1), padding=(1, 1), use_se = 1, use_hs = 1)
@@ -376,7 +376,7 @@ class seesaw_shuffleFaceNetv3(Module):
         # out = self.conv_23(out)
         # print('conv_23', out.shape)
 
-        # out = self.conv_3(out)
+        out = self.conv_3(out)
         
         out = self.conv_34(out)
 
@@ -384,7 +384,7 @@ class seesaw_shuffleFaceNetv3(Module):
 
         out = self.conv_45(out)
 
-        out = self.conv_5(out)
+        out = self.conv_5(out) 
 
         out = self.conv_6_sep(out)
 
