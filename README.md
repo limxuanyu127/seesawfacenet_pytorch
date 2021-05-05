@@ -1,55 +1,53 @@
-# offical pytorch implement of seesawfacenet
+# Research project on lightweight Face Recognition model, using Seesafacenet
 
 ------
 
 ## 1. Intro
 
 - This repo is a reimplementation of seesawfacenet[(paper)](https://arxiv.org/abs/1908.09124)
-- For models, including the pytorch implementation of the backbone modules of Arcface/MobileFacenet/seesawfacenet(including seesaw_shareFaceNet,seesaw_shuffleFaceNet, DW_seesawFaceNetv1, DW_seesawFaceNetv2)
-- We build build this repo based on the work of @TreB1eN(https://github.com/TreB1eN/InsightFace_Pytorch), and fixed few bugs before usage.
-- Pretrained models are posted, include the [MobileFacenet](https://arxiv.org/abs/1804.07573) in the original paper
+- The original github repo  is here: [(original repo)](https://github.com/cvtower/seesawfacenet_pytorch)
+
+### **Objectives:**
+
+- To identify new ways to make to improve on the chosen baseline model, which is the
 
 ------
 
-## 2. Pretrained Models & training logs & Performance
+## 2. Methdology
 
-[seesawfacenet @ googledrive](https://drive.google.com/drive/folders/1n4Zi7YTqG4YoLdK3-aO8qWWEjOCcD7w9?usp=sharing)
-[seesawfacenet @ baidudisk](https://pan.baidu.com/s/1dggnM1VmHrtKwm2RfDlKdA) extraction code:exiy
-![Image text](https://github.com/cvtower/seesawfacenet_pytorch/raw/master/figures/mobile_version.jpg)
-![Image text](https://github.com/cvtower/seesawfacenet_pytorch/raw/master/figures/dw_version.jpg)
+We explored new ways to make the Seesawfacenet faster and more accurate. The new changes that we succesfully incorporated are as follows:
+
+- Replace the original Arc-Face loss function with the LiArc-Face loss function 
+- Replace a Seesaw block with a Slim-CNN block 
+
+We then evaluated the performance of our model compared to the original baseline Seesawfacenet. 
+
+The literature review used are as follows:
+- [(paper for LiArc-Face)](https://arxiv.org/pdf/1907.12256.pdf)
+- [(paper for Slim-CNN)](https://arxiv.org/pdf/1907.02157.pdf)
+- [(original repo for Slim-CNN)](https://github.com/gtamba/pytorch-slim-cnn)
+
 
 ## 3. How to use
 
-- clone
+Note that the orginal repo did not run smoothly for me, because of some errors, including dependency conflicts, wrong imports within certain files, and certain code segments that threw errors. Thus, I made some changes to the set-up steps. Here is how i set up the repo:
 
-  ```
-  git clone https://github.com/TropComplique/mtcnn-pytorch.git
-  ```
+### 3.1 Setting up the environment
 
-### 3.1 Data Preparation
+Python version 3.6 should be used. 
 
-#### 3.1.1 Prepare Facebank (For testing over camera or video)
+There is a *requirements.txt* file in the current repo, which can be used to install relevant dependencies. However, some dependencies are incompatible, so if you face issues after installing the dependencies in the files, do consider the following additional steps that I took:
 
-Provide the face images your want to detect in the data/face_bank folder, and guarantee it have a structure like following:
+  * To install a numpy version that is compatible with other dependencies:
+    * pip install --upgrade numpy==1.16.0
+  * To install other dependencies required for cv2:
+    * sudo apt-get install libsm6 libxrender1 libfontconfig1 libxext6
 
-```
-data/facebank/
-        ---> id1/
-            ---> id1_1.jpg
-        ---> id2/
-            ---> id2_1.jpg
-        ---> id3/
-            ---> id3_1.jpg
-           ---> id3_2.jpg
-```
+### 3.2 Training the model
 
-#### 3.1.2 download the pretrained model to work_space/model
+#### 3.2.1 Download the dataset
 
-If more than 1 image appears in one folder, an average embedding will be calculated
-
-#### 3.2.3 Prepare Dataset (MS1MV2(face_emore, refined MS1M...whatever we call it) For training refer to the original paper)
-
-download the MS1MV2 dataset:
+Download the MS1MV2 dataset:
 
 - [emore dataset @ BaiduDrive](https://pan.baidu.com/s/1eXohwNBHbbKXh5KHyItVhQ), [emore dataset @ Dropbox](https://www.dropbox.com/s/wpx6tqjf0y5mf6r/faces_ms1m-refine-v2_112x112.zip?dl=0)
 - More Dataset please refer to the [original post](https://github.com/deepinsight/insightface/wiki/Dataset-Zoo)
@@ -77,59 +75,7 @@ faces_emore/
             ---> vgg2_fp
 ```
 
-------
-
-### 3.2 detect over camera:
-
-- 1. download the desired weights to model folder:
-
-- 2 to take a picture, run
-
-  ```
-  python take_pic.py -n name
-  ```
-
-  press q to take a picture, it will only capture 1 highest possibility face if more than 1 person appear in the camera
-
-- 3 or you can put any preexisting photo into the facebank directory, the file structure is as following:
-
-```
-- facebank/
-         name1/
-             photo1.jpg
-             photo2.jpg
-             ...
-         name2/
-             photo1.jpg
-             photo2.jpg
-             ...
-         .....
-    if more than 1 image appears in the directory, average embedding will be calculated
-```
-
-- 4 to start
-
-  ```
-  python face_verify.py 
-  ```
-
-- - -
-
-### 3.3 detect over video:
-
-```
-​```
-python infer_on_video.py -f [video file name] -s [save file name]
-​```
-```
-
-the video file should be inside the data/face_bank folder
-
-previous work on mtcnn for android platform and face cropping
-- mtcnn_android_native [mtcnn_android_native](https://github.com/cvtower/mtcnn_android_native)
-- Face-extractor-based-on-mtcnn [Face-extractor-based-on-mtcnn](https://github.com/cvtower/Face-extractor-based-on-mtcnn)
-
-### 3.4 Training:
+#### 3.2.2  Training:
 
 ```
 ​```
@@ -139,33 +85,52 @@ python train.py -b [batch_size] -lr [learning rate] -e [epochs]
 ​```
 ```
 
+
+### 3.3 Evaluating the model:
+
+This repo, as with the original, helps you to evaluate your own photos. To do so:
+
+#### 3.3.1 Prepare Facebank 
+
+The Facebank is a consolidation of possible people that you want to detect. For example, if you want the code to be able to predict a person called Ben, provide face images of Ben in the data/face_bank folder, and guarantee it have a structure like following:
+
+```
+data/facebank/
+        ---> id1/
+            ---> id1_1.jpg
+        ---> id2/
+            ---> id2_1.jpg
+        ---> id3/
+            ---> id3_1.jpg
+           ---> id3_2.jpg
+```
+
+Replace the id tags with the names of the person (eg. replace id1 with Ben).
+
+#### 3.3.2 Prepare Test Image:
+ In the directory *src/data/*, add the file you want to evaluate called *test_image.jpg*
+
+#### 3.3.3 Run the evaluation:
+
+Open the predict.py file, and change the file path for the trained model. 
+
+```
+python new_predict.py --path data/test_image.jpg  
+#Optional -u arg to update the facebank, included for first use or when u add new imges to the facebank
+
+```
+
+The outputs should be saved in *data/save/*
+
+#### Note:
+For other capabilities of the repo, do refer to the Readme in the original repo.
+
+
 ## 4. References
 
-- This repo is mainly based on [TreB1eN/InsightFace_Pytorch](https://github.com/TreB1eN/InsightFace_Pytorch) and [cvtower/SeesawNet_pytorch](https://github.com/cvtower/SeesawNet_pytorch), and inspired by [deepinsight/insightface](https://github.com/deepinsight/insightface) as well.
+- This repo is mainly based on [cvtower/SeesawNet_pytorch](https://github.com/cvtower/SeesawNet_pytorch).
 
-## PS
-
-- PRs are welcome, especially for models for mobile platfroms
-- Email : jtzhangcas@gmail.com
-
-Citation
-
-Please cite our papers in your publications if it helps your research:
-
-@misc{zhang2019seesawnet,
-    title={Seesaw-Net: Convolution Neural Network With Uneven Group Convolution},
-    author={Jintao Zhang},
-    year={2019},
-    eprint={1905.03672},
-    archivePrefix={arXiv},
-    primaryClass={cs.CV}
-}
-
-@misc{zhang2019seesawfacenets,
-    title={SeesawFaceNets: sparse and robust face verification model for mobile platform},
-    author={Jintao Zhang},
-    year={2019},
-    eprint={1908.09124},
-    archivePrefix={arXiv},
-    primaryClass={cs.CV}
-}
+- It is also inspired by the following works:
+    * [(paper for LiArc-Face)](https://arxiv.org/pdf/1907.12256.pdf)
+    * [(paper for Slim-CNN)](https://arxiv.org/pdf/1907.02157.pdf)
+    * [(original repo for Slim-CNN)](https://github.com/gtamba/pytorch-slim-cnn)
